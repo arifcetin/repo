@@ -7,8 +7,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class ItemAdapter(private val items: List<ItemModel>) :
+class ItemAdapter  (private val items: List<ItemModel>) :
     RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
+
+    private var onClickListener: OnClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -17,7 +19,20 @@ class ItemAdapter(private val items: List<ItemModel>) :
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(items[position])
+        val item = items[position]
+        holder.bind(item)
+        holder.itemView.setOnClickListener {
+            onClickListener?.onClick(position,item)
+        }
+    }
+
+    fun setOnClickListener(listener: OnClickListener?) {
+        this.onClickListener = listener
+    }
+
+    // Interface for the click listener
+    interface OnClickListener {
+        fun onClick(position: Int, model: ItemModel)
     }
 
     override fun getItemCount(): Int {

@@ -1,24 +1,23 @@
 package com.example.intorn
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [StaffFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class StaffFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -55,8 +54,20 @@ class StaffFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = itemAdapter
         }
+        itemAdapter.setOnClickListener(object : ItemAdapter.OnClickListener{
+            override fun onClick(position: Int, model: ItemModel) {
+                if(model.text=="Staff"){
+                    moveToNewActivity()
+                }
+            }
 
+        })
         return view
+    }
+    private fun moveToNewActivity() {
+        val i = Intent(activity, StaffActivity::class.java)
+        startActivity(i)
+        (activity as Activity?)!!.overridePendingTransition(0, 0)
     }
 
 }
